@@ -1,0 +1,32 @@
+# Создаем .gitignore
+cat > .gitignore << EOF
+
+bin/
+dist/
+*.exe
+*.dll
+
+go.sum
+*.test
+*.out
+coverage.txt
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+.env
+.env.local
+
+docker-compose.override.yml
+
+*.log
+logs/
+
+.DS_Store
+Thumbs.db
+
+tmp/
+temp/
+EOF
