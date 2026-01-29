@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"log"
 	"os"
 
@@ -24,24 +23,17 @@ func main() {
 		port = "8512"
 	}
 
-	dsn := cfg.PostgresDSN()
-	log.Printf("Using database: %s", dsn)
-
 	// Connect db
-	db, err := sql.Open("postgres", dsn)
+	db, err := database.NewConnect(cfg)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Database connection failed: ", err)
 	}
 	defer db.Close()
 
-	if err := db.Ping(); err != nil {
-		log.Fatal("Database connection failed: ", err)
-	}
-
 	// Migrations
-	if err := database.RunMigrations(db); err != nil {
+	if err := database.RunMigrations(db, cfg.Env); err != nil {
 		log.Fatal("Migrations error: ", err)
 	}
 
-	log.Println("Migrations completed successfully")
+	log.Println("Running database migrations...")
 }
