@@ -4,15 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 
-	_ "github.com/lib/pq" // для PostgreSQL
+	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
 )
 
+// RunMigrations - запуск миграций
 func RunMigrations(db *sql.DB) error {
-	// Устанавливаем диалект БД
 	goose.SetDialect("postgres")
 
-	// Запускаем миграции из папки migrations
 	if err := goose.Up(db, "migrations"); err != nil {
 		return fmt.Errorf("миграции не удались: %w", err)
 	}
