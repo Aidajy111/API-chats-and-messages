@@ -16,3 +16,12 @@ func NewMessagesRepository(db *gorm.DB) *MessageRepository {
 func (r *MessageRepository) Create(msg *models.Messeges) error {
 	return r.db.Create(msg).Error
 }
+
+func (r *ChatRepository) Check(id int) (bool, error) {
+	var count int64
+	err := r.db.Model(&models.Chat{}).
+		Where("id = ?", id).
+		Count(&count).Error
+
+	return count > 0, err
+}
