@@ -68,7 +68,7 @@ func (h *ChatHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 	resp := struct {
 		Chat     *models.Chat      `json:"chat"`
-		Messages []models.Messeges `json:"messages"`
+		Messages []models.Messages `json:"messages"`
 	}{
 		Chat:     chat,
 		Messages: messages,
@@ -119,7 +119,7 @@ func (h *ChatHandler) CreateMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	message := &models.Messeges{
+	message := &models.Messages{
 		ChatID: id,
 		Text:   payload.Text,
 	}

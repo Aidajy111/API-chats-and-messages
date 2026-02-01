@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine  # Лучше указать конкретную версию
+    container_name: chat-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chatdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Исправленный путь
+    healthcheck:  # Добавляем healthcheck
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chat-api
+    depends_on:
+      db:
+        condition: service_healthy  # Ждем пока БД станет healthy
+    ports:
+      - "8512:8512"
+    environment:
+      PORT: 8512
+      ENV: development
+      DB_HOST: db  # Важно: имя сервиса, не localhost!
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: chatdb
+      DB_SSL_MODE: disable
+      DATABASE_URL: postgres://postgres:postgres@db:5432/chatdb?sslmode=disable  # Добавьте
+    # Если нужно видеть логи приложения
+    # stdin_open: true
+    # tty: true
+
+volumes:
+  postgres_data:

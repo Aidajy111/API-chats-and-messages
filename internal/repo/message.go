@@ -13,7 +13,7 @@ func NewMessagesRepository(db *gorm.DB) *MessageRepository {
 	return &MessageRepository{db: db}
 }
 
-func (r *MessageRepository) Create(msg *models.Messeges) error {
+func (r *MessageRepository) Create(msg *models.Messages) error {
 	return r.db.Create(msg).Error
 }
 

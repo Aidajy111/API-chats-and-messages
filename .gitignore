@@ -1,4 +1,3 @@
-# Создаем .gitignore
 cat > .gitignore << EOF
 
 bin/
@@ -6,7 +5,6 @@ dist/
 *.exe
 *.dll
 
-go.sum
 *.test
 *.out
 coverage.txt
@@ -17,7 +15,6 @@ coverage.txt
 *.swo
 
 .env
-.env.local
 
 docker-compose.override.yml
 
